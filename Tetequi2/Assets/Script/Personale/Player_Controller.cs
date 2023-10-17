@@ -5,11 +5,11 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     //Guarda el movimiento vertical y horizontal
-    private float horizontalMove;
-    private float verticalMove;
+    private float _horizontalMove;
+    private float _verticalMove;
 
     //almasena el input del jugador
-    private Vector3 inputJugador;
+    private Vector3 _inputJugador;
 
     //poder mover el charactercontroller del personaje
     public CharacterController player;
@@ -21,11 +21,11 @@ public class Player_Controller : MonoBehaviour
     public Camera anclaje;
 
     //guardas las posiciones del punto de anclaje
-    private Vector3 anclajeDelante;
-    private Vector3 anclajeDerecha;
+    private Vector3 _anclajeDelante;
+    private Vector3 _anclajeDerecha;
 
     //saber direccion a la que se mueve el personaje en relacion con el punto de anclaje
-    private Vector3 movePlayer;
+    private Vector3 _movePlayer;
 
     private void Awake()
     {
@@ -42,23 +42,23 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
         //agarra y guarda el movimiento que el jugador este haciendo
-        horizontalMove = Input.GetAxis("Horizontal");
-        verticalMove = Input.GetAxis("Vertical");
+        _horizontalMove = Input.GetAxis("Horizontal");
+        _verticalMove = Input.GetAxis("Vertical");
 
         //guardamos los valores en el vector 3 (inputJugador), para despues estabilisarlo a que el maximo de movimiento sea 1
-        inputJugador = new Vector3(horizontalMove, 0, verticalMove);
-        inputJugador = Vector3.ClampMagnitude(inputJugador, 1);
+        _inputJugador = new Vector3(_horizontalMove, 0, _verticalMove);
+        _inputJugador = Vector3.ClampMagnitude(_inputJugador, 1);
 
         //mandamos a llamar la dirreccion del punto de anclaje
         perDireccion();
 
         //seteamos la direccion del punto de anclaje
-        movePlayer = inputJugador.x * anclajeDerecha + inputJugador.z * anclajeDelante;
+        _movePlayer = _inputJugador.x * _anclajeDerecha + _inputJugador.z * _anclajeDelante;
 
-        player.transform.LookAt(player.transform.position + movePlayer);
+        player.transform.LookAt(player.transform.position + _movePlayer);
 
         //mandamos a llamar a Mover enviandole un vector 3
-        Mover(movePlayer);
+        Mover(_movePlayer);
     }
 
     //variable que ejecuta el movimiento
@@ -72,15 +72,15 @@ public class Player_Controller : MonoBehaviour
     void perDireccion()
     {
         //le ingresamos los datos del punto de anclaje
-        anclajeDelante = anclaje.transform.forward;
-        anclajeDerecha = anclaje.transform.right;
+        _anclajeDelante = anclaje.transform.forward;
+        _anclajeDerecha = anclaje.transform.right;
 
         //freseamos el movimiento en y
-        anclajeDelante.y = 0;
-        anclajeDerecha.y = 0;
+        _anclajeDelante.y = 0;
+        _anclajeDerecha.y = 0;
 
         //normalizamos la direccion para que sea mas ajustada
-        anclajeDelante = anclajeDelante.normalized;
-        anclajeDerecha = anclajeDerecha.normalized;
+        _anclajeDelante = _anclajeDelante.normalized;
+        _anclajeDerecha = _anclajeDerecha.normalized;
     }
 }
