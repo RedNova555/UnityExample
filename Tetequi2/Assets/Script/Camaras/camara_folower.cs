@@ -13,10 +13,6 @@ public class camara_folower : MonoBehaviour
     //distancia entre camara y jugador
     private Vector3 _distancia;
 
-    //posicion de distancia entre la camara y el jugador
-    private float _posicionX;
-    private float _posicionZ;
-
     //simulador de lag en frames
     [Range (0, 1)]public float velocidadMovimiento = 0.006f;
 
@@ -31,20 +27,16 @@ public class camara_folower : MonoBehaviour
 
     void Start()
     {
-        //medimos la diferencia de distancia entre la camara y el personaje
-        _posicionX = _personaje.position.x - _camara.position.x;
-        _posicionZ = _personaje.position.z - _camara.position.z;
-
         //actualizamos los valores de la distancia que existe entre la camara y el jugador
-        _distancia = new Vector3(_personaje.position.x - _posicionX, _camara.position.y, _personaje.position.z - _posicionZ);
+        _distancia = new Vector3(_camara.position.x - _personaje.position.x, _camara.position.y - _personaje.position.y, _camara.position.z - _personaje.position.z);
     }
 
     private void LateUpdate()
     {
-        //actualizamos la posicion de la camara
-        transform.position = Vector3.Lerp(transform.position, _personaje.position + _distancia, velocidadMovimiento);
-
         //para que mire al jugador
         transform.LookAt(_personaje);
+
+        //actualizamos la posicion de la camara
+        transform.position = Vector3.Lerp(transform.position, _personaje.position + _distancia, velocidadMovimiento);
     }
 }
