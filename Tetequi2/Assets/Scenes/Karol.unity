@@ -312,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 42534927}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.92, y: 20.48, z: -6.62}
+  m_LocalPosition: {x: -16.04, y: 21.5, z: -6.300002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -555,15 +555,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063552230360950, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.59
+      value: -11.71
       objectReference: {fileID: 0}
     - target: {fileID: 4063552230360950, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.509999
+      value: 13.53
       objectReference: {fileID: 0}
     - target: {fileID: 4063552230360950, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.08000088
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 4063552230360950, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -607,6 +607,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1953271650171834, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 854716607}
+    - targetCorrespondingSourceObject: {fileID: 1953271650171834, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 854716609}
   m_SourcePrefab: {fileID: 100100000, guid: 437cff1de0d10e1418191ff84e62d1e4, type: 3}
 --- !u!1 &854716601 stripped
 GameObject:
@@ -678,8 +681,24 @@ MonoBehaviour:
   camara: {fileID: 42534929}
   gravity: 20
   _isOnSlope: 0
-  sliteVelocity: 10
+  sliteVelocity: 7
   slopeForceDown: -10
+--- !u!114 &854716609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854716601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30033ca4f46afe4eae6308496926f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsed: 0
+  _joystickMove: {fileID: 979363077}
+  x: 0
+  z: 0
 --- !u!1001 &979363075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -774,7 +793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
       propertyPath: m_Name
-      value: Fixed Joystick
+      value: Move
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -786,6 +805,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
   m_PrefabInstance: {fileID: 979363075}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &979363077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+  m_PrefabInstance: {fileID: 979363075}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1119877760
 GameObject:
   m_ObjectHideFlags: 0

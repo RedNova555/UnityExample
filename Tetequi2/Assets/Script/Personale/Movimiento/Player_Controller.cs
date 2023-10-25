@@ -34,7 +34,7 @@ public class Player_Controller : MonoBehaviour
     private float _fallVelozity;
 
     //indica si esta sobre alguna plataforma inclinada
-    public bool _isOnSlope = false;
+    private bool _isOnSlope = false;
 
     //saca la Normal del objeto en el que esta parado
     private Vector3 _hitNormal;
@@ -48,6 +48,9 @@ public class Player_Controller : MonoBehaviour
     //Check para saber si en 
     private float _positionComfirm;
 
+    //utilizara las variables del Script InputControler
+    private InputControler _yoistickUse;
+
     //fuerza de salto
     //public float jumpForce = 10;
 
@@ -56,6 +59,9 @@ public class Player_Controller : MonoBehaviour
     {
         //tomamos el character controler del jugador
         player = GetComponent<CharacterController>();
+
+        //toma las variable del Script InputControler
+        _yoistickUse = FindAnyObjectByType<InputControler>( );
     }
 
     // Update is called once per frame
@@ -64,23 +70,36 @@ public class Player_Controller : MonoBehaviour
         //detecta si se encuentra sobre una pendiente
         if (_isOnSlope)
         {
-            //detecta si el personaje esta a la misma altura para ver si es permitido moverse o no
-            //(esto es debido a un error que ocuria y el personaje se congelaba y era imposile moverse)
-            if (player.transform.position.y != _positionComfirm)
+            //comprueba si el personaje esta a una misma altura (con el frame anterior), para saber si sigue bajando la pendiente
+            if (player.transform.position.y == _positionComfirm)
             {
-            }
-            else
-            {
-                //agarra y guarda el movimiento que el jugador este haciendo
+                //agarra y guarda el movimiento que el jugador ejecuto en el teclado
                 _horizontalMove = Input.GetAxis("Horizontal");
                 _verticalMove = Input.GetAxis("Vertical");
+
+                //detecta si se esta moviendo por el yoistick y reasigna los valores del joystick si es asi
+                if (_yoistickUse.isUsed == true)
+                {
+                    //agarra el movimiento que el jugador ejecuto en el joystick
+                    _horizontalMove = _yoistickUse.x;
+                    _verticalMove = _yoistickUse.z;
+                }
             }
         }
+        //en caso de no estar sobre una pendiente, puede mover al jugador
         else
         {
-            //agarra y guarda el movimiento que el jugador este haciendo
+            //agarra y guarda el movimiento que el jugador ejecuto en el teclado
             _horizontalMove = Input.GetAxis("Horizontal");
-            _verticalMove = Input.GetAxis("Vertical");  
+            _verticalMove = Input.GetAxis("Vertical");
+
+            //detecta si se esta moviendo por el yoistick o por el teclado
+            if (_yoistickUse.isUsed == true)
+            {
+                //agarra el movimiento que el jugador ejecuto en el joystick
+                _horizontalMove = _yoistickUse.x;
+                _verticalMove = _yoistickUse.z;
+            }
         }
 
         //guardamos los valores en el vector 3 (inputJugador), para despues estabilisarlo a que el maximo de movimiento sea 1
@@ -94,7 +113,7 @@ public class Player_Controller : MonoBehaviour
         _movePlayer = _inputJugador.x * _camaraRight + _inputJugador.z * _camaraForward;
 
         //modifica la velocidad del jugador (se hace de este modo para no afectar la gravedad 2 veces)
-        _movePlayer = _movePlayer * playerSpeed;
+        _movePlayer *= playerSpeed;
         /*
         *Si no importa modificar la gravedad, se cambia en _Mover() esta linea asi player.Move(_movePlayer * player * Time.deltaTime);
         *y se elimina rastro del movimiento de la gravedad(variables, esta linea y el _SetGravity())
@@ -173,10 +192,10 @@ public class Player_Controller : MonoBehaviour
             //tambien caclcula que tan inclinada esta la pendiente y en consecuencia, se desliza mas o menos rapido
             _movePlayer.x += ((1f - _hitNormal.y) * _hitNormal.x) * sliteVelocity;
             _movePlayer.z += ((1f - _hitNormal.y) * _hitNormal.z) * sliteVelocity;
-
-            //para evitar que de "saltitos" le mandamos una fuerza en Y
-            _movePlayer.y += slopeForceDown;
         }
+
+        //para evitar que de "saltitos" le mandamos una fuerza en Y
+        _movePlayer.y += slopeForceDown;
     }
 
     //detecta cuando el CharacterControler toca algo (Mientras se mueve), pero no detecta cuando algun otro objeto choca con el CharacterControler
